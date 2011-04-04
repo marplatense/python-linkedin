@@ -8,7 +8,7 @@
 # LinkedIn Account: http://www.linkedin.com/in/ozgurvt                                #
 #######################################################################################
 
-__version__ = "1.6"
+__version__ = "1.6.3"
 
 """
 Provides a Pure Python LinkedIn API Interface.
@@ -237,6 +237,7 @@ class Profile(object):
         self.public_url  = None
         self.picture_url = None
         self.current_status = None
+        self.profile_request = None
         
     @staticmethod
     def create(xml_string):
@@ -286,6 +287,13 @@ class Profile(object):
             if educations:
                 educations = educations[0]
                 profile.educations = Education.create(educations)
+
+            # api-standard-profile-request
+            profile_request = person.getElementsByTagName("api-standard-profile-request")
+            if profile_request:
+                profile_request = profile_request[0]
+                profile.profile_request = ProfileRequest.create(profile_request)
+
             return profile
         except:
             return None
