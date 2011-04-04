@@ -8,7 +8,7 @@
 # LinkedIn Account: http://www.linkedin.com/in/ozgurvt                                #
 #######################################################################################
 
-__version__ = "1.6.3"
+__version__ = "1.6.4"
 
 """
 Provides a Pure Python LinkedIn API Interface.
@@ -216,6 +216,44 @@ class Position(object):
         except:
             return None
 
+class ProfileRequest(object):
+    """Class wrapping an api standard profile request"""
+
+    def __init__(self):
+        self.url = None
+        self.http_headers = []
+
+    @staticmethod
+    def create(node):
+        """
+        <api-standard-profile-request>
+         <url>http://api.linkedin.com/v1/people/-3werS2wer</url>
+         <headers total="1">
+          <http-header>
+           <name>x-li-auth-token</name>
+           <value>name:BHZa</value>
+          </http-header>
+         </headers>
+        </api-standard-profile-request>
+        """
+        result = ProfileRequest()
+        result.url = result._get_child(node, "url")
+        children = node.getElementsByTagName("headers")
+        for child in children:
+            name_ = result._get_child(child, "name")
+            value_ = result._get_child(child, "value")
+            result.http_headers.append(dict(name=name_, value=value_))
+        return result
+
+    def _get_child(self, node, tagName):
+        try:
+            domNode = node.getElementsByTagName(tagName)[0]
+            childNodes = domNode.childNodes
+            if childNodes:
+                return childNodes[0].nodeValue
+            return None
+        except:
+            return None
     
 class Profile(object):
     """

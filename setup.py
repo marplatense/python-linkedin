@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name = "python-linkedin",
-      version = "1.6.3",
+      version = "1.6.4",
       description = "Python Interface for the LinkedIn API",
       author = "Ozgur Vatansever",
       license = open("LICENSE").read(),
